@@ -94,7 +94,6 @@ class AuthControllers {
     try {
       const { userId, otp } = req.body;
       const user = await dbWorker.user.findUnique({ where: { id: userId } });
-      console.log(user, userId, otp);
 
       if (!user || !user.otp_secret)
         throw new Error("No user exists or TOTP not Enabled");
@@ -143,7 +142,6 @@ class AuthControllers {
     try {
       const { userId, otp } = req.body;
       const user = await dbWorker.user.findUnique({ where: { id: userId } });
-      console.log(user, userId, otp);
 
       if (!user || !user.otp_secret) throw new Error("No user exists");
 
@@ -260,8 +258,6 @@ class AuthControllers {
 
   checkStatus = async (req: Request, res: Response): Promise<void> => {
     try {
-      console.log(req.session.user);
-
       res.status(200).json({
         success: true,
         user: req.session.user,

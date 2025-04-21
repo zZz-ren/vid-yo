@@ -7,6 +7,7 @@ import {
 } from "../utils/api";
 import { useState } from "react";
 import { EnableOtpResponse } from "../utils/types";
+import { CustomButton, Input } from "../components/Forms/FormComponents";
 
 const EnableOtpPage = () => {
   const { user } = customUseSelector((state) => state.auth);
@@ -46,23 +47,26 @@ const EnableOtpPage = () => {
         }
       }
     } catch (error: any) {
-      console.log(error);
       toast.error(error.message);
     }
   };
 
+  const handleDisable2Fa = async () => {};
+
   return (
-    <div>
-      Enable OTP Page
-      <div>Hello, {user?.name}</div>
-      <div>
-        Mobile App Authentication,(2FA) <br />
-        Secure your account with TOTP two-factor authentication {user?.email}
+    <div className="bg-[url(/bg-3.jpg)] h-screen w-screen py-10 px-6 dark:text-white dark:bg-gray-800">
+      <h3 className="text-3xl top-15">
+        Hello,<span className=" text-purple-500 text-4xl">{user?.name}</span>
+      </h3>
+      <div className="mt-8">
+        <h3 className="text-xl">Mobile App Authentication,(2FA)</h3>
+        Secure your account with TOTP two-factor authentication
+        <span className="text-purple-400 ms-2 font-bold">{user?.email}</span>
       </div>
       {user?.otp_enabled ? (
-        <button onClick={() => {}}>Disable Otp</button>
+        <CustomButton placeholder="Disable TOTP" onClick={handleDisable2Fa} />
       ) : (
-        <button onClick={handleEnableOtp}>Enable Otp</button>
+        <CustomButton placeholder="Enable TOTP" onClick={handleEnableOtp} />
       )}
       {qrModal && <QRModal handleSubmit={handleVerifyOTP} response={data} />}
     </div>
@@ -78,14 +82,33 @@ const QRModal = ({
 }) => {
   const [otp, setOtp] = useState("");
   return (
-    <div>
-      <img src={response?.qrCode} alt="qrCode" />
-      <label>OTP Auth Url</label>
-      <span>{response?.otpAuthUrl}</span>
-      <label>OTP Secret</label>
-      <span>{response?.otp_secret}</span>
-      <input value={otp} onChange={(e) => setOtp(e.target.value)} />
-      <button onClick={() => handleSubmit({ otp })}>Submit OTP</button>
+    <div className="mt-5">
+      <h3 className="text-xl">Scan the below QR code from authenticator app</h3>
+      <div className="p-2 my-2 mx-4">
+        Secure your account with TOTP two-factor authentication
+        <img src={response?.qrCode} alt="qrCode" />
+        <br />
+        <label>
+          OTP Auth Url
+          <span className="text-purple-300 ms-2">{response?.otpAuthUrl}</span>
+        </label>
+        <label>
+          OTP Secret
+          <span className="text-purple-300 ms-2">{response?.otp_secret}</span>
+        </label>
+        <Input
+          name="otp"
+          placeholder="Enter OTP"
+          setValue={setOtp}
+          type="text"
+          label="TOTP"
+          value={otp}
+        />
+        <CustomButton
+          placeholder="Submit OTP"
+          onClick={() => handleSubmit({ otp })}
+        />
+      </div>
     </div>
   );
 };

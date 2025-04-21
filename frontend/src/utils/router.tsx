@@ -7,6 +7,7 @@ import LoginPage from "../pages/LoginPage";
 import Dashboard from "../components/Dashboard";
 import EnableOtpPage from "../pages/EnableOtpPage";
 import RegisterPage from "../pages/RegisterPage";
+import VideoRoom from "../pages/VideoRoom";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Dashboard /> },
       { path: "/enable-otp", element: <EnableOtpPage /> },
+      { path: "/room/:roomId", element: <VideoRoom /> },
     ],
   },
   {

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 export type Children = {
   children: ReactNode;
@@ -49,4 +50,13 @@ export interface EnableOtpResponse extends GenericResponse {
   token: string;
   otpAuthUrl: string;
   qrCode: string;
+}
+
+export interface validatedInputProps {
+  label?: string;
+  name: "email" | "password" |"name";
+  type?: string;
+  register: UseFormRegister<any>;
+  rules?: Record<string, any>;
+  errors: FieldErrors;
 }
